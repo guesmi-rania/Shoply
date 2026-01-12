@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,25 +7,26 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  menuOpen = false;
-  isShrunk = false;
+  menuOpen: boolean = false;
+
+  // Déclaration de cartCount
+  cartCount: number = 0;
+
+  constructor(private cartService: CartService) {
+    // Abonnement pour mettre à jour le compteur du panier
+    this.cartService.cart$.subscribe(cart => {
+      this.cartCount = cart.length;
+    });
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
-    const hamburger = document.querySelector('.hamburger');
-    hamburger?.classList.toggle('active');
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.isShrunk = window.scrollY > 50;
     const navbar = document.querySelector('.navbar');
-    if (navbar) {
-      if (this.isShrunk) {
-        navbar.classList.add('shrink');
-      } else {
-        navbar.classList.remove('shrink');
-      }
-    }
+    if (window.scrollY > 50) navbar?.classList.add('shrink');
+    else navbar?.classList.remove('shrink');
   }
 }
