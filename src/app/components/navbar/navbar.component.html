@@ -1,0 +1,33 @@
+<nav class="navbar">
+    <div class="logo">
+      <a routerLink="/">Shoply</a>
+    </div>
+  
+    <ul class="nav-links">
+      <li><a routerLink="/">Accueil</a></li>
+      <li><a routerLink="/products">Produits</a></li>
+      <li><a routerLink="/cart">Panier</a></li>
+      <li><a routerLink="/contact">Contact</a></li>
+    </ul>
+  
+    <div class="cart">
+      <a routerLink="/cart">
+        🛒
+        <span class="cart-count">{{cartCount}}</span>
+      </a>
+    </div>
+  
+    <div class="hamburger" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  
+  <ul class="mobile-menu" [class.active]="menuOpen">
+    <li><a routerLink="/">Accueil</a></li>
+    <li><a routerLink="/products">Produits</a></li>
+    <li><a routerLink="/cart">Panier</a></li>
+    <li><a routerLink="/contact">Contact</a></li>
+  </ul>
+  
