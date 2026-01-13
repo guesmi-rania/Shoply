@@ -1,12 +1,10 @@
 <div class="product-list">
-    <div class="product-card" *ngFor="let product of products">
-      <img [src]="product.image" alt="{{ product.name }}" />
-      <div class="product-info">
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.description }}</p>
-        <div class="price">{{ product.price | currency:'USD' }}</div>
-        <button (click)="addToCart(product)">Ajouter au panier</button>
-      </div>
-    </div>
+  <div *ngFor="let product of products" class="product-card">
+    <img [src]="product.image" alt="{{ product.name }}">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p class="price">{{ product.price | currency:'EUR' }}</p>
+    <button (click)="addToCart(product)">Ajouter au panier</button>
+    <a [routerLink]="['/product', product.id]">Voir détails</a>
   </div>
-  
+</div>

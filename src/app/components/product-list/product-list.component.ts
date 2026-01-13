@@ -1,29 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProductService } from '../services/product.service'; // exemple si le service est dans components
+import { Component } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Product } from '../../models/product.model';
+import { CartService } from '../../services/cart.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyPipe, RouterModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
-  products: any[] = [];
+export class ProductListComponent {
+  products: Product[] = [
+    { id: 1, name: 'Gâteau au chocolat', description: 'Fondant et délicieux', price: 10, image: 'assets/images/chocolate-cake.jpg' },
+    { id: 2, name: 'Tarte aux fraises', description: 'Fraîche et gourmande', price: 12, image: 'assets/images/strawberry-tart.jpg' },
+  ];
 
-  constructor(private productService: ProductService) {}
+  constructor(public cartService: CartService) {}
 
-  ngOnInit(): void {
-    // Récupère les produits depuis le service
-    this.products = this.productService.getProducts();
-  }
-
-  addToCart(product: any) {
-    // Méthode pour ajouter au panier
-    console.log('Produit ajouté au panier :', product);
-
-    // Si tu as un CartService, décommente et utilise-le
-    // this.cartService.addToCart(product);
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product);
   }
 }

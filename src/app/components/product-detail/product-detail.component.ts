@@ -1,19 +1,29 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../services/product.service'; // exemple si le service est dans components
+import { Product } from '../../models/product.model';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './product-detail.component.html'
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent {
-  product: any;
+  product!: Product;
+  products: Product[] = [
+    { id: 1, name: 'Gâteau au chocolat', description: 'Fondant et délicieux', price: 10, image: 'assets/images/chocolate-cake.jpg' },
+    { id: 2, name: 'Tarte aux fraises', description: 'Fraîche et gourmande', price: 12, image: 'assets/images/strawberry-tart.jpg' },
+  ];
 
-  constructor(route: ActivatedRoute, service: ProductService) {
-    const id = Number(route.snapshot.paramMap.get('id'));
-    this.product = service.getProductById(id);
+  constructor(private route: ActivatedRoute, private cartService: CartService) {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.product = this.products.find(p => p.id === id)!;
+  }
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product);
   }
 }
