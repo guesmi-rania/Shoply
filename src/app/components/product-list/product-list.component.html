@@ -3,7 +3,7 @@
     <img [src]="product.image" alt="{{ product.name }}">
     <h3>{{ product.name }}</h3>
     <p>{{ product.description }}</p>
-    <p class="price">{{ product.price | currency:'EUR' }}</p>
+    <p class="price">{{ product.price | currency:'Dt' }}</p>
     <button (click)="addToCart(product)">Ajouter au panier</button>
     <a [routerLink]="['/product', product.id]">Voir détails</a>
   </div>
