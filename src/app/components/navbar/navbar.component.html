@@ -1,5 +1,89 @@
-<nav>
-  <a routerLink="">Produits</a>
-  <a routerLink="cart">Panier</a>
-  <a routerLink="contact">Contact</a>
+<nav class="navbar" *ngIf="isVisible" [class.scrolled]="isScrolled">
+  <div class="nav-inner">
+
+    <!-- Logo -->
+    <a routerLink="/products" class="nav-logo">
+      <span class="logo-bag">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+      </span>
+      <span class="logo-name">Shoply</span>
+    </a>
+
+    <!-- Center links -->
+    <ul class="nav-links" [class.open]="menuOpen">
+      <li>
+        <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+          Produits
+        </a>
+      </li>
+      <li>
+        <a routerLink="/contact" routerLinkActive="active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+          Contact
+        </a>
+      </li>
+    </ul>
+
+    <!-- Right actions -->
+    <div class="nav-actions">
+
+      <!-- Cart -->
+      <a routerLink="/cart" class="cart-btn" title="Mon panier">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </a>
+
+      <!-- User pill -->
+      <div class="user-pill" *ngIf="authService.isLoggedIn()">
+        <div class="user-avatar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span class="user-name">{{ userName }}</span>
+      </div>
+
+      <!-- Logout -->
+      <button class="logout-btn" *ngIf="authService.isLoggedIn()" (click)="logout()" title="Déconnexion">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Déconnexion</span>
+      </button>
+
+      <!-- Login -->
+      <a routerLink="/login" class="login-btn" *ngIf="!authService.isLoggedIn()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        <span>Connexion</span>
+      </a>
+
+      <!-- Hamburger mobile -->
+      <button class="hamburger" (click)="toggleMenu()" [class.open]="menuOpen">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </div>
 </nav>
+
+<div class="navbar-spacer" *ngIf="isVisible"></div>
