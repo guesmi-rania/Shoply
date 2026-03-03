@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://3000-firebase-shoply-1768203984369.cluster-ikslh4rdsnbqsvu5nw3v4dqjj2.cloudworkstations.dev",
+    "target": "http://localhost:3000",
     "secure": false,
     "changeOrigin": true
   }
