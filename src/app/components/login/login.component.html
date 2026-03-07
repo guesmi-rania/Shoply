@@ -1,82 +1,82 @@
 <div class="auth-page">
-    <!-- Left panel: branding -->
-    <div class="brand-panel">
-      <div class="brand-content">
-        <div class="logo">
-          <span class="logo-icon">🛍️</span>
-          <span class="logo-text">Shoply</span>
-        </div>
-        <h1 class="brand-headline">Shop smarter.<br>Live better.</h1>
-        <p class="brand-sub">Thousands of products, curated just for you.</p>
-        <div class="floating-cards">
-          <div class="fcard fcard-1">✨ Free delivery over 50dt </div>
-          <div class="fcard fcard-2">🔒 Secure checkout</div>
-          <div class="fcard fcard-3">❤️ 50k+ happy customers</div>
-        </div>
+  <!-- Panneau gauche : branding -->
+  <div class="brand-panel">
+    <div class="brand-content">
+      <div class="logo">
+        <span class="logo-icon">🛍️</span>
+        <span class="logo-text">Shoply</span>
       </div>
-      <div class="brand-blob"></div>
+      <h1 class="brand-headline">Achetez mieux.<br>Vivez mieux.</h1>
+      <p class="brand-sub">Des milliers de produits, sélectionnés rien que pour vous.</p>
+      <div class="floating-cards">
+        <div class="fcard fcard-1">✨ Livraison gratuite dès 50dt</div>
+        <div class="fcard fcard-2">🔒 Paiement sécurisé</div>
+        <div class="fcard fcard-3">❤️ +50 000 clients satisfaits</div>
+      </div>
     </div>
-  
-    <!-- Right panel: form -->
-    <div class="form-panel">
-      <div class="form-container">
-        <div class="form-header">
-          <h2>Welcome back</h2>
-          <p>Sign in to your account to continue</p>
-        </div>
-  
-        <div class="error-msg" *ngIf="error">
-          <span>⚠️ {{ error }}</span>
-        </div>
-  
-        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-          <div class="field">
-            <label for="email">Email address</label>
-            <div class="input-wrap">
-              <span class="input-icon">✉️</span>
-              <input
-                id="email"
-                type="email"
-                [(ngModel)]="email"
-                name="email"
-                placeholder="you@example.com"
-                required
-                autocomplete="email"
-              />
-            </div>
+    <div class="brand-blob"></div>
+  </div>
+
+  <!-- Panneau droit : formulaire -->
+  <div class="form-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>Bon retour parmi nous</h2>
+        <p>Connectez-vous à votre compte pour continuer</p>
+      </div>
+
+      <div class="error-msg" *ngIf="error">
+        <span>⚠️ {{ error }}</span>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="field">
+          <label for="email">Adresse e-mail</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input
+              id="email"
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="vous@exemple.com"
+              required
+              autocomplete="email"
+            />
           </div>
-  
-          <div class="field">
-            <label for="password">
-              Password
-              <a routerLink="/forgot" class="forgot-link">Forgot password?</a>
-            </label>
-            <div class="input-wrap">
-              <span class="input-icon">🔑</span>
-              <input
-                id="password"
-                type="password"
-                [(ngModel)]="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-                autocomplete="current-password"
-              />
-            </div>
-          </div>
-  
-          <button type="submit" class="btn-primary" [disabled]="loading">
-            <span *ngIf="!loading">Sign In →</span>
-            <span *ngIf="loading" class="spinner"></span>
-          </button>
-        </form>
-  
-        <div class="divider"><span>or</span></div>
-  
-        <div class="signup-prompt">
-          Don't have an account?
-          <a routerLink="/register">Create one free</a>
         </div>
+
+        <div class="field">
+          <label for="password">
+            Mot de passe
+            <a routerLink="/forgot" class="forgot-link">Mot de passe oublié ?</a>
+          </label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input
+              id="password"
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Entrez votre mot de passe"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          <span *ngIf="!loading">Se connecter →</span>
+          <span *ngIf="loading" class="spinner"></span>
+        </button>
+      </form>
+
+      <div class="divider"><span>ou</span></div>
+
+      <div class="signup-prompt">
+        Pas encore de compte ?
+        <a routerLink="/register">Créer un compte gratuit</a>
       </div>
     </div>
   </div>
+</div>
