@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const https = require('https');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,4 +34,15 @@ app.use('/api/products', require('./routes/products'));
 
 app.get('/', (req, res) => res.send('🚀 Shoply API running'));
 
-app.listen(PORT, () => console.log(`Backend on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend on http://localhost:${PORT}`);
+
+  // ✅ Keep-alive pour Render (plan gratuit) — démarre après le serveur
+  setInterval(() => {
+    https.get('https://shoply-backend-mbhq.onrender.com/', (res) => {
+      console.log(`Keep-alive ping: ${res.statusCode}`);
+    }).on('error', (err) => {
+      console.log('Ping error:', err.message);
+    });
+  }, 840000); // toutes les 14 minutes
+});
