@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -26,21 +26,30 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Vérification initiale
+    this.checkVisibility(this.router.url);
+
     // Masquer sur les pages auth
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe((e: any) => {
-        this.isVisible = !this.AUTH_ROUTES.includes(e.urlAfterRedirects);
+      .subscribe((e: NavigationEnd) => {
+        // Avec HashLocation, urlAfterRedirects = '/' mais url = '/login'
+        // On nettoie le hash si présent
+        const url = e.urlAfterRedirects.replace(/^#/, '');
+        this.checkVisibility(url);
         this.menuOpen = false;
       });
+  }
 
-    // Vérification initiale
-    this.isVisible = !this.AUTH_ROUTES.includes(this.router.url);
+  private checkVisibility(url: string): void {
+    // Nettoyer les query params et fragments
+    const cleanUrl = url.split('?')[0].split('#')[0];
+    this.isVisible = !this.AUTH_ROUTES.some(route => cleanUrl === route || cleanUrl.startsWith(route));
+  }
 
-    // Effet scroll
-    window.addEventListener('scroll', () => {
-      this.isScrolled = window.scrollY > 20;
-    });
+  @HostListener('window:scroll')
+  onScroll(): void {
+    this.isScrolled = window.scrollY > 20;
   }
 
   logout(): void {
