@@ -6,3 +6,5 @@ Captures d’écran ci-dessous → connexion / création de compte /page d’acc
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
 
+
+<img width="1366" height="768" alt="Capture d’écran (17)" src="https://github.com/user-attachments/assets/e23c402f-49cd-448c-80d1-b687c999e0ac" />
