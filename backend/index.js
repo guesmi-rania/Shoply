@@ -7,7 +7,7 @@ const https = require('https');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ CORS avant tout le reste
+// ✅ CORS — gère automatiquement le preflight OPTIONS
 app.use(cors({
   origin: [
     'https://guesmi-rania.github.io',
@@ -17,9 +17,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
-
-// ✅ Preflight — syntaxe compatible Express 5
-app.options('(.*)', cors());
 
 app.use(express.json());
 
@@ -37,7 +34,6 @@ app.get('/', (req, res) => res.send('🚀 Shoply API running'));
 app.listen(PORT, () => {
   console.log(`Backend on http://localhost:${PORT}`);
 
-  // ✅ Keep-alive Render
   setInterval(() => {
     https.get('https://shoply-backend-mbhq.onrender.com/', (res) => {
       console.log(`Keep-alive ping: ${res.statusCode}`);
