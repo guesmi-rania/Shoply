@@ -3,46 +3,42 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
+  private cartItems: Product[] = [];
   private cartSubject = new BehaviorSubject<Product[]>([]);
 
-  public cart$: Observable<Product[]> = this.cartSubject.asObservable();
+  cart$: Observable<Product[]> = this.cartSubject.asObservable();
 
-  // Observable du nombre d'articles (pour le badge navbar en temps réel)
-  public cartCount$: Observable<number> = this.cartSubject.pipe(
-    map(cart => cart.length)
+  cartCount$: Observable<number> = this.cartSubject.pipe(
+    map(items => items.length)
   );
 
-  constructor() {}
-
-  getCart(): Product[] {
-    return this.cartSubject.value;
-  }
-
-  // Utilisé par le navbar pour le badge
-  getCartCount(): number {
-    return this.cartSubject.value.length;
-  }
-
   addToCart(product: Product): void {
-    const currentCart = this.cartSubject.value;
-    this.cartSubject.next([...currentCart, product]);
+    this.cartItems = [...this.cartItems, product];
+    this.cartSubject.next(this.cartItems);
+    console.log('✅ Produit ajouté:', product.name, '| Total:', this.cartItems.length);
   }
 
   removeFromCart(index: number): void {
-    const currentCart = [...this.cartSubject.value];
-    currentCart.splice(index, 1);
-    this.cartSubject.next(currentCart);
+    this.cartItems = this.cartItems.filter((_, i) => i !== index);
+    this.cartSubject.next(this.cartItems);
   }
 
   clearCart(): void {
+    this.cartItems = [];
     this.cartSubject.next([]);
   }
 
+  getCart(): Product[] {
+    return this.cartItems;
+  }
+
+  getCartCount(): number {
+    return this.cartItems.length;
+  }
+
   getTotal(): number {
-    return this.cartSubject.value.reduce((total, item) => total + item.price, 0);
+    return this.cartItems.reduce((total, item) => total + item.price, 0);
   }
 }

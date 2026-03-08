@@ -1,7 +1,8 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 
@@ -12,11 +13,13 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isVisible = true;
   isScrolled = false;
   menuOpen = false;
+  cartCount = 0; // ✅ réactif
 
+  private subs = new Subscription();
   private readonly AUTH_ROUTES = ['/login', '/register'];
 
   constructor(
@@ -26,25 +29,35 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Vérification initiale
     this.checkVisibility(this.router.url);
 
-    // Masquer sur les pages auth
-    this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe((e: NavigationEnd) => {
-        // Avec HashLocation, urlAfterRedirects = '/' mais url = '/login'
-        // On nettoie le hash si présent
-        const url = e.urlAfterRedirects.replace(/^#/, '');
-        this.checkVisibility(url);
-        this.menuOpen = false;
-      });
+    // ✅ S'abonner au panier pour mise à jour automatique du badge
+    this.subs.add(
+      this.cartService.cartCount$.subscribe(count => {
+        this.cartCount = count;
+      })
+    );
+
+    this.subs.add(
+      this.router.events
+        .pipe(filter(e => e instanceof NavigationEnd))
+        .subscribe((e: NavigationEnd) => {
+          const url = e.urlAfterRedirects.replace(/^#/, '');
+          this.checkVisibility(url);
+          this.menuOpen = false;
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
   private checkVisibility(url: string): void {
-    // Nettoyer les query params et fragments
     const cleanUrl = url.split('?')[0].split('#')[0];
-    this.isVisible = !this.AUTH_ROUTES.some(route => cleanUrl === route || cleanUrl.startsWith(route));
+    this.isVisible = !this.AUTH_ROUTES.some(
+      route => cleanUrl === route || cleanUrl.startsWith(route)
+    );
   }
 
   @HostListener('window:scroll')
@@ -67,9 +80,5 @@ export class NavbarComponent implements OnInit {
     } catch {
       return 'Compte';
     }
-  }
-
-  get cartCount(): number {
-    return this.cartService.getCartCount();
   }
 }
