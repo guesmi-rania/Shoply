@@ -8,7 +8,7 @@ import { Product } from '../models/product.model';
 })
 export class ProductService {
   // URL backend IDX
-  private apiUrl = '/api/products';
+  private apiUrl = 'https://shoply-backend-mbhq.onrender.com/api/products';
 
   constructor(private http: HttpClient) {}
 
