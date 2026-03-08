@@ -4,6 +4,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -16,6 +18,7 @@ export class ProductDetailComponent implements OnInit {
   product!: Product;
   loading = true;
   added = false;
+  error = '';
   quantity = 1;
 
   constructor(
@@ -26,13 +29,18 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')!;
-    this.productService.getProductById(id).subscribe({
+    this.productService.getProductById(id).pipe(
+      timeout(15000),
+      catchError(err => {
+        this.error = err.name === 'TimeoutError'
+          ? 'Le serveur met trop de temps à répondre. Réessayez dans quelques secondes.'
+          : 'Produit introuvable.';
+        this.loading = false;
+        return throwError(() => err);
+      })
+    ).subscribe({
       next: (data) => {
         this.product = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Erreur produit:', err);
         this.loading = false;
       }
     });

@@ -1,14 +1,38 @@
-<div class="product-list">
+<!-- Skeleton loader -->
+<div class="product-list" *ngIf="loading">
+  <div class="product-card skeleton-card" *ngFor="let i of [1,2,3,4,5,6]">
+    <div class="skeleton skeleton-img"></div>
+    <div class="card-content">
+      <div class="skeleton skeleton-line w80"></div>
+      <div class="skeleton skeleton-line w60"></div>
+      <div class="skeleton skeleton-line w40"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Erreur -->
+<div class="error-state" *ngIf="!loading && error">
+  <p>⚠️ {{ error }}</p>
+  <button (click)="ngOnInit()">Réessayer</button>
+</div>
+
+<!-- Produits -->
+<div class="product-list" *ngIf="!loading && !error">
   <div *ngFor="let product of products" class="product-card">
-    <img [src]="product.image" alt="{{ product.name }}">
+    <img [src]="product.image" [alt]="product.name" loading="lazy">
     <div class="card-content">
       <h3>{{ product.name }}</h3>
       <p>{{ product.description }}</p>
-      <p class="price">{{ product.price }} Dt</p>
+      <p class="price">{{ product.price }} DT</p>
     </div>
     <div class="card-actions">
       <button (click)="addToCart(product)">🛒 Ajouter</button>
       <a [routerLink]="['/product', product._id]">Voir détails</a>
     </div>
+  </div>
+
+  <!-- Aucun produit -->
+  <div class="empty-state" *ngIf="products.length === 0">
+    <p>Aucun produit disponible pour le moment.</p>
   </div>
 </div>

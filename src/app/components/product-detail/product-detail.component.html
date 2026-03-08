@@ -1,4 +1,4 @@
-<!-- Loading skeleton -->
+<!-- Skeleton -->
 <div class="skeleton-wrap" *ngIf="loading">
   <div class="skeleton skeleton-img"></div>
   <div class="skeleton-info">
@@ -9,10 +9,15 @@
   </div>
 </div>
 
-<!-- Product detail -->
-<div class="detail-page" *ngIf="!loading && product">
+<!-- Erreur -->
+<div class="error-state" *ngIf="!loading && error">
+  <p>⚠️ {{ error }}</p>
+  <a routerLink="/products">← Retour aux produits</a>
+</div>
 
-  <!-- Breadcrumb -->
+<!-- Détail produit -->
+<div class="detail-page" *ngIf="!loading && product && !error">
+
   <nav class="breadcrumb">
     <a routerLink="/products">Produits</a>
     <span class="sep">›</span>
@@ -23,7 +28,6 @@
 
   <div class="detail-grid">
 
-    <!-- Gauche : Image -->
     <div class="image-col">
       <div class="image-frame">
         <img [src]="product.image" [alt]="product.name" />
@@ -31,9 +35,7 @@
       </div>
     </div>
 
-    <!-- Droite : Infos -->
     <div class="info-col">
-
       <h1 class="product-name">{{ product.name }}</h1>
 
       <div class="price-row">
@@ -42,34 +44,25 @@
       </div>
 
       <div class="divider"></div>
-
       <p class="description">{{ product.description }}</p>
 
-      <!-- Caractéristiques -->
       <div class="features">
         <div class="feature">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12l5 5L20 7"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
           Livraison rapide 24/48h
         </div>
         <div class="feature">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12l5 5L20 7"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
           Retour gratuit 30 jours
         </div>
         <div class="feature">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12l5 5L20 7"/>
-          </svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e94560" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
           Paiement 100% sécurisé
         </div>
       </div>
 
       <div class="divider"></div>
 
-      <!-- Quantité -->
       <div class="qty-row">
         <span class="qty-label">Quantité</span>
         <div class="qty-control">
@@ -79,7 +72,6 @@
         </div>
       </div>
 
-      <!-- Ajouter au panier -->
       <button class="btn-cart" (click)="addToCart()" [class.added]="added">
         <ng-container *ngIf="!added">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,10 +88,7 @@
         </ng-container>
       </button>
 
-      <a routerLink="/products" class="btn-back">
-        ← Retour aux produits
-      </a>
-
+      <a routerLink="/products" class="btn-back">← Retour aux produits</a>
     </div>
   </div>
 </div>
