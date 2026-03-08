@@ -7,6 +7,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { CartComponent } from './pages/cart/cart.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { authGuard } from './guards/auth.guard';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 export const routes: Routes = [
   { path: '',            redirectTo: 'home', pathMatch: 'full' },
@@ -17,5 +18,6 @@ export const routes: Routes = [
   { path: 'product/:id', component: ProductDetailComponent,   canActivate: [authGuard] },
   { path: 'cart',        component: CartComponent,            canActivate: [authGuard] },
   { path: 'contact',     component: ContactComponent },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] },
   { path: '**',          redirectTo: 'login' }
 ];
