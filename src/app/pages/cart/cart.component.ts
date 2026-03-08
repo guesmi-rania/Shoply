@@ -1,20 +1,25 @@
-import { Component } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule, RouterModule],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   cart: Product[] = [];
 
-  constructor(public cartService: CartService) {
-    this.cart = this.cartService.getCart();
+  constructor(public cartService: CartService) {}
+
+  ngOnInit(): void {
+    this.cartService.cart$.subscribe(items => {
+      this.cart = items;
+    });
   }
 
   getTotal(): number {
@@ -23,11 +28,9 @@ export class CartComponent {
 
   removeItem(index: number): void {
     this.cartService.removeFromCart(index);
-    this.cart = this.cartService.getCart();
   }
 
   clearCart(): void {
     this.cartService.clearCart();
-    this.cart = [];
   }
 }
