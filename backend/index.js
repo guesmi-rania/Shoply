@@ -18,8 +18,8 @@ app.use(cors({
   credentials: true
 }));
 
-// ✅ Preflight pour toutes les routes
-app.options('*', cors());
+// ✅ Preflight — syntaxe compatible Express 5
+app.options('(.*)', cors());
 
 app.use(express.json());
 
@@ -37,12 +37,12 @@ app.get('/', (req, res) => res.send('🚀 Shoply API running'));
 app.listen(PORT, () => {
   console.log(`Backend on http://localhost:${PORT}`);
 
-  // ✅ Keep-alive pour Render (plan gratuit) — démarre après le serveur
+  // ✅ Keep-alive Render
   setInterval(() => {
     https.get('https://shoply-backend-mbhq.onrender.com/', (res) => {
       console.log(`Keep-alive ping: ${res.statusCode}`);
     }).on('error', (err) => {
       console.log('Ping error:', err.message);
     });
-  }, 840000); // toutes les 14 minutes
+  }, 840000);
 });
