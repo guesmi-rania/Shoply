@@ -325,7 +325,64 @@ input::placeholder { color: #bbb; }
 }
 
 .checkbox-field label a:hover { text-decoration: underline; }
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fffbeb;
+  border: 1.5px dashed #f59e0b;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
+.demo-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.demo-icon {
+  font-size: 1.4rem;
+}
+
+.demo-info strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #92400e;
+  margin-bottom: 4px;
+}
+
+.demo-info p {
+  margin: 2px 0;
+  font-size: 0.82rem;
+  color: #78350f;
+}
+
+.demo-info code {
+  background: #fde68a;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.btn-demo {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.btn-demo:hover {
+  background: #d97706;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .auth-page { grid-template-columns: 1fr; }

@@ -18,7 +18,11 @@ export class LoginComponent {
   error = '';
 
   constructor(private auth: AuthService, private router: Router) {}
-
+  loginAsDemo() {
+    this.email = 'demo@shoply.com';
+    this.password = 'Demo1234!';
+    this.onSubmit();
+  }
   onSubmit() {
     this.loading = true;
     this.error = '';

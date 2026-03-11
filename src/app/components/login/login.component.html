@@ -28,7 +28,20 @@
       <div class="error-msg" *ngIf="error">
         <span>⚠️ {{ error }}</span>
       </div>
-
+<!-- ENCART DÉMO -->
+<div class="demo-banner">
+  <div class="demo-info">
+    <span class="demo-icon">🧪</span>
+    <div>
+      <strong>Compte de démonstration</strong>
+      <p>Email : <code>demo@shoply.com</code></p>
+      <p>Mot de passe : <code>Demo1234!</code></p>
+    </div>
+  </div>
+  <button type="button" class="btn-demo" (click)="loginAsDemo()">
+    Tester la démo →
+  </button>
+</div>
       <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
         <div class="field">
           <label for="email">Adresse e-mail</label>
